@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>电子礼簿系统 - 专业版 | 现代、安全、完全离线的礼金管理解决方案</title>
+    <meta
+      name="description"
+      content="一款完全在浏览器本地运行的单页 Web 应用，为各类红白喜事提供一个现代化、安全、高效的礼金管理解决方案。采用 AES-256 加密，数据 100% 离线存储，支持历史追溯、多格式导出，永不泄露隐私。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <script src="./dist/tailwindcss.js"></script>
+    <link href="./dist/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="./dist/remixicon.css" rel="stylesheet" />
+
+    <style>
+       :root {
+         --primary: #c53030;
+         --primary-hover: #9b2c2c;
+         --primary-light: #fff5f5;
+       }
+
+       body {
+         font-family:
+           "Inter",
+           "Noto Sans SC",
+           -apple-system,
+           BlinkMacSystemFont,
+           "Segoe UI",
+           Roboto,
+           sans-serif;
+         background-color: #fcfcfc;
+       }
+
+       /* --- 通用工具类 --- */
+       .brand-text {
+         color: var(--primary);
+       }
+       .brand-bg {
+         background-color: var(--primary);
+       }
+
+       /* 优化按钮 Hover 效果 */
+       .brand-bg-hover {
+         transition: all 0.3s ease;
+       }
+       .brand-bg-hover:hover {
+         background-color: var(--primary-hover);
+         box-shadow:
+           0 10px 15px -3px rgba(197, 48, 48, 0.3),
+           0 4px 6px -2px rgba(197, 48, 48, 0.1);
+       }
+       .scrollbar-hide::-webkit-scrollbar {
+         display: none;
+       }
+       .scrollbar-hide {
+         -ms-overflow-style: none;
+         scrollbar-width: none;
+       }
+       .overflow-hidden {
+         overflow: hidden;
+       }
+
+       .bg {
+         background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 70%), url("./0.jpg");
+         background-repeat: no-repeat, repeat;
+         background-size: auto, 1000px;
+         position: relative;
+       }
+
+       section .banner {
+         max-width: none;
+         width: 52vw;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         user-select: none;
+         transition:
+           transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+           filter 0.3s ease;
+         filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+       }
+       section .banner:hover {
+         transform: translate(-50%, -50%) translate(-10px, -10px) scale(1.02);
+         filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
+       }
+
+       section .banner-bg {
+         content: "";
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         left: 0;
+         top: 0;
+         background-image: linear-gradient(to right, transparent 0%, #ffe2e2);
+         opacity: 0.8;
+       }
+
+       .titleSwiper .swiper-wrapper {
+         display: block !important;
+       }
+       .titleSwiper .swiper-slide {
+         width: 100% !important;
+         justify-content: flex-start;
+         overflow: hidden;
+       }
+       .feature-card {
+         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+       }
+       .feature-card:hover {
+         transform: translateY(-5px);
+         box-shadow:
+           0 20px 25px -5px rgba(0, 0, 0, 0.1),
+           0 10px 10px -5px rgba(0, 0, 0, 0.04);
+       }
+       .feature-card:hover .icon-box {
+         background-color: var(--primary);
+         color: white;
+         transform: scale(1.1);
+       }
+       .tab-button {
+         position: relative;
+       }
+       .tab-button::after {
+         content: "";
+         position: absolute;
+         bottom: 0;
+         left: 50%;
+         transform: translateX(-50%) scaleX(0);
+         width: 60%;
+         height: 3px;
+         background-color: var(--primary);
+         transition: transform 0.3s ease;
+         border-radius: 99px;
+       }
+       .tab-button.active::after {
+         transform: translateX(-50%) scaleX(1);
+       }
+       .video-wrapper {
+         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+         border: 1px solid rgba(0, 0, 0, 0.1);
+       }
+       .custom-nav-btn {
+         width: 3rem;
+         height: 3rem;
+         background-color: white;
+         border-radius: 50%;
+         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         color: #4b5563;
+         transition: all 0.2s;
+         cursor: pointer;
+         z-index: 10;
+       }
+       .custom-nav-btn:hover {
+         background-color: var(--primary);
+         color: white;
+       }
+       .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+         background: var(--primary) !important;
+       }
+
+       .scrolling-wrapper {
+         mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+         -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+         width: 100%;
+         overflow: hidden;
+       }
+
+       .scrolling-row {
+         display: flex;
+         width: max-content;
+         gap: 1rem;
+       }
+       .scrolling-wrapper:hover .scrolling-row {
+         animation-play-state: paused;
+       }
+
+      .scroll-left {
+         animation: scrollLeft 200s linear infinite; /
+       }
+
+       .scroll-right {
+         animation: scrollRight 200s linear infinite;
+       }
+       @keyframes scrollLeft {
+         0% {
+           transform: translateX(0);
+         }
+         100% {
+           transform: translateX(-50%);
+         }
+       }
+
+       @keyframes scrollRight {
+         0% {
+           transform: translateX(-50%);
+         }
+         100% {
+           transform: translateX(0);
+         }
+       }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800 antialiased overflow-x-hidden">
+    <header class="sticky top-0 bg-white/80 backdrop-blur-md z-50 border-b border-gray-100 shadow-sm transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex-shrink-0 flex items-center gap-2">
+            <div class="w-8 h-8 rounded bg-red-600 text-white flex items-center justify-center font-bold text-xl"><i class="ri-book-read-fill"></i></div>
+            <a href="#/" class="text-xl md:text-2xl font-bold tracking-tight text-gray-900">电子礼簿系统<span class="text-red-600 text-sm align-top ml-1">PRO</span></a>
+          </div>
+
+          <nav class="hidden md:flex md:items-center md:space-x-8 text-md">
+            <button onclick="openModal('modal-download')" class="font-medium text-gray-600 hover:text-red-600 transition duration-300 focus:outline-none">下载</button>
+            <a href="https://e-gift-v1.netlify.app/" class="font-medium text-gray-600 hover:text-red-600 transition duration-300">在线演示</a>
+            <a href="#details" class="font-medium text-gray-600 hover:text-red-600 transition duration-300">功能说明</a>
+            <a href="#testimonials" class="font-medium text-gray-600 hover:text-red-600 transition duration-300">用户评价</a>
+            <button onclick="openModal('modal-support')" class="font-medium text-gray-600 hover:text-red-600 transition duration-300 focus:outline-none">联系作者</button>
+          </nav>
+
+          <a
+            href="https://github.com/jingguanzhang/gift-book"
+            target="_blank"
+            class="hidden md:inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-700 transition-all duration-300 shadow hover:shadow-lg transform hover:-translate-y-0.5">
+            <i class="ri-github-fill text-lg"></i>
+            <span>GitHub</span>
+          </a>
+
+          <div class="flex items-center md:hidden">
+            <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-red-600 hover:bg-gray-100 focus:outline-none transition-colors">
+              <i class="ri-menu-line text-2xl" id="menu-icon"></i>
+              <i class="ri-close-line text-2xl hidden" id="close-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-100 shadow-xl overflow-hidden transition-all duration-300 origin-top">
+        <div class="px-4 py-4 space-y-2 flex flex-col">
+          <button
+            onclick="openModal('modal-download')"
+            class="mobile-nav-link block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <i class="ri-download-cloud-2-line mr-2 align-bottom"></i>下载
+          </button>
+          <a href="https://e-gift-v1.netlify.app/" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <i class="ri-macbook-line mr-2 align-bottom"></i>在线演示
+          </a>
+          <a href="#details" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <i class="ri-list-settings-line mr-2 align-bottom"></i>功能说明
+          </a>
+          <a href="#testimonials" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <i class="ri-chat-smile-2-line mr-2 align-bottom"></i>用户评价
+          </a>
+          <button
+            onclick="openModal('modal-support')"
+            class="mobile-nav-link block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <i class="ri-user-heart-line mr-2 align-bottom"></i>联系作者
+          </button>
+          <a
+            href="https://github.com/jingguanzhang/gift-book"
+            target="_blank"
+            class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <i class="ri-github-fill mr-2 align-bottom"></i>GitHub 源码
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="relative hero-gradient min-h-[calc(100vh-4rem)] flex items-center py-16 bg overflow-hidden">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-40 w-full">
+          <div class="grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-12 items-center text-center lg:text-left">
+            <div class="col-span-1 lg:col-span-6 backdrop-blur-sm bg-white/60 lg:bg-transparent p-6 lg:p-0 rounded-2xl lg:rounded-none border border-white/50 lg:border-none shadow-xl lg:shadow-none">
+              <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight flex flex-wrap items-center">
+                <div class="swiper titleSwiper h-[36px] sm:h-[42px] lg:h-[56px] overflow-hidden mr-2 mb-3 w-full">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide brand-text">简单易用</div>
+                    <div class="swiper-slide brand-text">完全开源</div>
+                    <div class="swiper-slide brand-text">永久免费</div>
+                    <div class="swiper-slide brand-text">高效稳定</div>
+                    <div class="swiper-slide brand-text">离线运行</div>
+                  </div>
+                </div>
+                <span class="flex-1 whitespace-nowrap">的电子礼簿软件</span>
+              </h1>
+
+              <p class="mt-4 text-lg sm:text-xl md:text-2xl text-gray-600 font-medium">现代化、数字化的礼金解决方案</p>
+
+              <p class="mt-4 sm:mt-6 max-w-lg text-base sm:text-lg text-gray-600 leading-relaxed">告别手写，拥抱数字化，让礼金登记不混乱，数据管理更高效。</p>
+
+              <div class="flex flex-col lg:flex-row gap-4 pt-8 sm:pt-10">
+                <a
+                  href="https://e-gift-v1.netlify.app/"
+                  target="_blank"
+                  class="group w-full sm:w-auto flex items-center justify-center px-8 py-3 sm:py-4 border border-transparent text-base font-semibold rounded-xl text-white brand-bg transition-all duration-300 shadow-lg shadow-red-200 hover:shadow-red-300 hover:scale-[1.02]">
+                  <i class="ri-rocket-2-fill text-xl mr-2 group-hover:animate-bounce"></i>
+                  立即体验
+                </a>
+                <a
+                  href="https://github.com/jingguanzhang/gift-book"
+                  target="_blank"
+                  class="w-full sm:w-auto flex items-center justify-center px-8 py-3 sm:py-4 border border-gray-200 text-base font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow-md">
+                  <i class="ri-github-fill text-xl mr-2"></i>
+                  查看源码
+                </a>
+              </div>
+
+              <div class="pt-8 sm:pt-10 flex flex-wrap items-center gap-4 sm:gap-6 text-sm sm:text-base text-gray-500">
+                <div class="flex items-center gap-1"><i class="ri-checkbox-circle-fill text-green-500"></i> 数据本地存储</div>
+                <div class="flex items-center gap-1"><i class="ri-checkbox-circle-fill text-green-500"></i> AES-256加密</div>
+                <div class="flex items-center gap-1"><i class="ri-checkbox-circle-fill text-green-500"></i> 100%开源</div>
+              </div>
+            </div>
+
+            <div class="hidden lg:flex items-center justify-center h-full min-h-[400px] relative col-span-4">
+              <img class="banner" src="./banner-right.png" />
+            </div>
+          </div>
+        </div>
+
+        <div class="banner-bg z-20 pointer-events-none"></div>
+      </section>
+
+      <section class="py-20 bg-gray-200/50 border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <span class="text-red-600 font-semibold tracking-wide uppercase text-sm">All-in-One Solution</span>
+            <h2 class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">专业级礼簿管家</h2>
+            <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">从现场极速录入到会后一键归档，我们重新定义了礼金管理流程。</p>
+          </div>
+
+          <div class="bg-white shadow-2xl shadow-gray-200/50 rounded-2xl overflow-hidden border border-gray-100">
+            <div id="tab-nav-container" class="relative border-b border-gray-100 bg-gray-50/50">
+              <nav id="tab-nav" class="flex md:justify-around overflow-x-auto whitespace-nowrap scrollbar-hide px-4 text-md font-medium">
+                <button class="tab-button group flex flex-col items-center py-4 px-6 min-w-[100px] text-gray-500 hover:text-red-600 transition-colors duration-300 focus:outline-none">
+                  <div class="p-2 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <i class="ri-rocket-2-line text-2xl"></i>
+                  </div>
+                  <span class="font-medium mt-1">简单易用</span>
+                </button>
+                <button class="tab-button group flex flex-col items-center py-4 px-6 min-w-[100px] text-gray-500 hover:text-red-600 transition-colors duration-300 focus:outline-none">
+                  <div class="p-2 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <i class="ri-folder-open-line text-2xl"></i>
+                  </div>
+                  <span class="font-medium mt-1">多事项管理</span>
+                </button>
+                <button class="tab-button group flex flex-col items-center py-4 px-6 min-w-[100px] text-gray-500 hover:text-red-600 transition-colors duration-300 focus:outline-none">
+                  <div class="p-2 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <i class="ri-edit-box-line text-2xl"></i>
+                  </div>
+                  <span class="font-medium mt-1">高效录入</span>
+                </button>
+                <button class="tab-button group flex flex-col items-center py-4 px-6 min-w-[100px] text-gray-500 hover:text-red-600 transition-colors duration-300 focus:outline-none">
+                  <div class="p-2 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <i class="ri-tv-2-line text-2xl"></i>
+                  </div>
+                  <span class="font-medium mt-1">副屏与统计</span>
+                </button>
+                <button class="tab-button group flex flex-col items-center py-4 px-6 min-w-[100px] text-gray-500 hover:text-red-600 transition-colors duration-300 focus:outline-none">
+                  <div class="p-2 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <i class="ri-shield-keyhole-line text-2xl"></i>
+                  </div>
+                  <span class="font-medium mt-1">历史与安全</span>
+                </button>
+                <button class="tab-button group flex flex-col items-center py-4 px-6 min-w-[100px] text-gray-500 hover:text-red-600 transition-colors duration-300 focus:outline-none">
+                  <div class="p-2 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <i class="ri-file-download-line text-2xl"></i>
+                  </div>
+                  <span class="font-medium mt-1">专业导出</span>
+                </button>
+                <button class="tab-button group flex flex-col items-center py-4 px-6 min-w-[100px] text-gray-500 hover:text-red-600 transition-colors duration-300 focus:outline-none">
+                  <div class="p-2 rounded-lg group-hover:bg-red-50 transition-colors">
+                    <i class="ri-github-fill text-2xl"></i>
+                  </div>
+                  <span class="font-medium mt-1">开源免费</span>
+                </button>
+              </nav>
+            </div>
+
+            <div id="content-slider" class="swiper bg-white">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide p-6 md:py-6 md:px-16">
+                  <div class="flex flex-col md:flex-row gap-12 items-center w-full">
+                    <div class="flex flex-1 flex-col space-y-4">
+                      <h3 class="text-4xl font-bold text-gray-900">极简设计，上手即用</h3>
+                      <p class="text-gray-600 mb-8 leading-relaxed">采用传统的竖排文字设计，不仅保留了中式账本的仪式感，更结合了现代化的操作逻辑。无论是长辈还是年轻人，都能轻松掌握。</p>
+                      <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 清晰的功能分区，零学习成本</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 全键盘操作支持，效率倍增</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 喜庆红/肃穆灰双主题，适应多场景</li>
+                      </ul>
+                      <div class="mt-8">
+                        <a
+                          href="https://e-gift-v1.netlify.app/"
+                          target="_blank"
+                          class="inline-flex items-center justify-center px-6 py-2.5 border border-red-200 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors duration-300">
+                          立即体验 <i class="text-xl ri-arrow-right-line ml-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                      <img src="./1.png" class="h-auto" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="swiper-slide p-6 md:py-6 md:px-16">
+                  <div class="flex flex-col md:flex-row gap-12 items-center w-full">
+                    <div class="flex-1">
+                      <h3 class="text-4xl font-bold mb-4 text-gray-900">多场活动，独立管理</h3>
+                      <p class="text-gray-600 mb-8 leading-relaxed">一个系统可管理红白喜事。每个事项数据完全物理隔离，拥有独立的管理密码，确保数据不混淆。</p>
+                      <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 创建无限个独立事项</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 独立密码保护，隐私无忧</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 清晰的列表视图，状态一目了然</li>
+                      </ul>
+                      <div class="mt-8">
+                        <a
+                          href="https://e-gift-v1.netlify.app/"
+                          target="_blank"
+                          class="inline-flex items-center justify-center px-6 py-2.5 border border-red-200 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors duration-300">
+                          立即体验 <i class="text-xl ri-arrow-right-line ml-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                      <img src="./2.png" class="h-auto" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="swiper-slide p-6 md:py-6 md:px-16">
+                  <div class="flex flex-col md:flex-row gap-12 items-center w-full">
+                    <div class="flex-1">
+                      <h3 class="text-4xl font-bold mb-4 text-gray-900">录入快到飞起</h3>
+                      <p class="text-gray-600 mb-8 leading-relaxed">专为婚礼签到台等高频录入场景优化，减少鼠标操作，让记账速度跟上宾客入场速度。</p>
+                      <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 姓名智能防重提醒</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 金额自动格式化与大写转换</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 语音播报确认，避免错记</li>
+                      </ul>
+                      <div class="mt-8">
+                        <a
+                          href="https://e-gift-v1.netlify.app/"
+                          target="_blank"
+                          class="inline-flex items-center justify-center px-6 py-2.5 border border-red-200 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors duration-300">
+                          立即体验 <i class="text-xl ri-arrow-right-line ml-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                      <img src="./3.png" class="h-auto" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="swiper-slide p-6 md:py-6 md:px-16">
+                  <div class="flex flex-col md:flex-row gap-12 items-center w-full">
+                    <div class="flex-1">
+                      <h3 class="text-4xl font-bold mb-4 text-gray-900">副屏实时展示 & 数据统计</h3>
+                      <p class="text-gray-600 mb-8 leading-relaxed">连接第二屏幕或投影仪，实时展示最新的礼金记录，仪式感拉满。后台实时统计，心中有数。</p>
+                      <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 宾客大屏实时欢迎与公示</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 多维度搜索与排序</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 现金/电子支付占比自动分析</li>
+                      </ul>
+                      <div class="mt-8">
+                        <a
+                          href="https://e-gift-v1.netlify.app/"
+                          target="_blank"
+                          class="inline-flex items-center justify-center px-6 py-2.5 border border-red-200 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors duration-300">
+                          立即体验 <i class="text-xl ri-arrow-right-line ml-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                      <img src="./4.png" class="h-auto" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="swiper-slide p-6 md:py-6 md:px-16">
+                  <div class="flex flex-col md:flex-row gap-12 items-center w-full">
+                    <div class="flex-1">
+                      <h3 class="text-4xl font-bold mb-4 text-gray-900">历史追溯 + 银行级加密</h3>
+                      <p class="text-gray-600 mb-8 leading-relaxed">数据仅存储在您的浏览器本地。敏感数据采用 AES-256 标准加密，让每一笔账目都清晰透明且安全。</p>
+                      <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 完整的修改历史记录（审计日志）</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 100% 本地运行，断网也能用</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 关键操作二次密码验证</li>
+                      </ul>
+                      <div class="mt-8">
+                        <a
+                          href="https://e-gift-v1.netlify.app/"
+                          target="_blank"
+                          class="inline-flex items-center justify-center px-6 py-2.5 border border-red-200 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors duration-300">
+                          立即体验 <i class="text-xl ri-arrow-right-line ml-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                      <img src="./5.png" class="h-auto" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="swiper-slide p-6 md:py-6 md:px-16">
+                  <div class="flex flex-col md:flex-row gap-12 items-center w-full">
+                    <div class="flex-1">
+                      <h3 class="text-4xl font-bold mb-4 text-gray-900">专业 PDF + Excel 导出</h3>
+                      <p class="text-gray-600 mb-8 leading-relaxed">一键生成精美的 PDF 礼簿用于打印存档，或导出 Excel 用于财务复核，满足所有后续需求。</p>
+                      <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 自动生成含封面、附录的精美 PDF</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 导出样式高度自定义</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> Excel 智能分表（礼金/礼品）</li>
+                      </ul>
+                      <div class="mt-8">
+                        <a
+                          href="https://e-gift-v1.netlify.app/"
+                          target="_blank"
+                          class="inline-flex items-center justify-center px-6 py-2.5 border border-red-200 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors duration-300">
+                          立即体验 <i class="text-xl ri-arrow-right-line ml-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                      <img src="./6.png" class="h-auto" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="swiper-slide p-6 md:py-6 md:px-16">
+                  <div class="flex flex-col md:flex-row gap-12 items-center w-full">
+                    <div class="flex-1">
+                      <h3 class="text-4xl font-bold mb-4 text-gray-900">完全开源，永久免费</h3>
+                      <p class="text-gray-600 mb-6">我们相信好用的工具应该是开放的。</p>
+                      <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 代码开源，但不可商用</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 无广告、无内购、无后门</li>
+                        <li class="flex items-center"><i class="ri-check-line text-red-500 mr-2 text-xl"></i> 社区驱动，持续更新</li>
+                      </ul>
+                      <div class="mt-8">
+                        <a
+                          href="https://github.com/jingguanzhang/gift-book"
+                          target="_blank"
+                          class="inline-flex items-center justify-center px-6 py-2.5 border border-red-200 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors duration-300">
+                          查看源码 <i class="ri-github-fill ml-2 text-xl"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                      <img src="./7.png" class="h-auto" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="video" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">一分钟视频演示</h2>
+            <p class="mt-4 text-lg text-gray-500">直观感受系统的操作流程与核心功能。</p>
+          </div>
+          <div class="mt-12 max-w-5xl mx-auto">
+            <div class="video-wrapper aspect-[16/9] rounded-2xl overflow-hidden bg-black relative">
+              <iframe
+                class="w-full h-full"
+                src="https://player.bilibili.com/player.html?isOutside=true&aid=115310325733135&bvid=BV1vWHLzBEF9&cid=32817024936&p=1&autoplay=0"
+                scrolling="no"
+                border="0"
+                frameborder="no"
+                framespacing="0"
+                allowfullscreen="true"></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="details" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">功能详览</h2>
+            <p class="mt-4 text-lg text-gray-500">探索每一个精心雕琢的细节，只为更好的体验。</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-shield-user-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">数据安全与隐私</h3>
+              <p class="text-gray-500 leading-relaxed">基于 IndexedDB 全离线运行，数据不出浏览器。管理密码 SHA-256 哈希验证，礼金记录 AES 加密。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-stack-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">多事项管理</h3>
+              <p class="text-gray-500 leading-relaxed">可创建和管理多个事项，每个事项拥有独立密码、主题与数据，互不干扰，安全切换。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-file-list-3-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">结构化备注</h3>
+              <p class="text-gray-500 leading-relaxed">常规备注外，可单独记录礼品、关系、电话、住址，使数据更有条理，便于后续筛选。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-palette-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">个性化定制</h3>
+              <p class="text-gray-500 leading-relaxed">内置红/灰双主题，支持上传专属封面图，让打印出的礼簿更具仪式感。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-slideshow-3-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">仪表盘统计</h3>
+              <p class="text-gray-500 leading-relaxed">内置交互式数据表格，提供对所有记录的即时搜索、排序与多维度筛选，洞察一目了然。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-device-recover-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">备份与恢复</h3>
+              <p class="text-gray-500 leading-relaxed">支持导出加密二进制文件或明文 JSON，方便在不同设备间迁移或恢复数据，安全可靠。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-user-star-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">宾客等级系统</h3>
+              <p class="text-gray-500 leading-relaxed">为宾客设置不同等级，系统自动按等级排序，打印时将重要宾客前置。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-fullscreen-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">沉浸式体验</h3>
+              <p class="text-gray-500 leading-relaxed">支持全屏模式减少干扰，提供丰富的键盘快捷键，大幅提升操作效率。</p>
+            </div>
+            <div class="feature-card group p-8 rounded-2xl border border-gray-100 bg-white hover:border-red-100">
+              <div class="icon-box inline-flex items-center justify-center h-14 w-14 rounded-xl bg-red-50 text-red-600 mb-6 transition-transform duration-300">
+                <i class="ri-smartphone-fill text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">移动端优化</h3>
+              <p class="text-gray-500 leading-relaxed">响应式设计完美适配手机平板。移动端自动启用高性能 PDF 引擎，随时随地管理。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials" class="py-24 bg-gray-50 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">用户真实评价</h2>
+            <p class="mt-4 text-lg text-gray-500">听听他们如何使用电子礼簿系统简化工作。</p>
+          </div>
+
+          <div class="testimonial-slider-container relative px-4 md:px-12">
+            <div class="swiper testimonial-slider">
+              <div class="swiper-wrapper"></div>
+            </div>
+            <div class="custom-prev custom-nav-btn absolute top-1/2 -translate-y-1/2 left-0 hidden md:flex"><i class="ri-arrow-left-s-line text-2xl"></i></div>
+            <div class="custom-next custom-nav-btn absolute top-1/2 -translate-y-1/2 right-0 hidden md:flex"><i class="ri-arrow-right-s-line text-2xl"></i></div>
+          </div>
+          <div class="swiper-pagination !relative mt-4"></div>
+        </div>
+      </section>
+
+      <section id="scenarios" class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">适用各类场景</h2>
+            <p class="mt-4 text-lg text-gray-500">无论是喜悦的庆典还是庄重的仪式，都能从容应对</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-6 w-full">
+          <div class="scrolling-wrapper">
+            <div class="scrolling-row scroll-right" data-duplicate="true">
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">新婚之囍</span>
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">订婚宴</span>
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">出阁宴</span>
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">回门宴</span>
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">喜得贵子</span>
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">新生儿满月</span>
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">宝宝百日宴</span>
+              <span class="bg-red-50 text-red-700 border border-red-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">周岁抓周</span>
+            </div>
+          </div>
+
+          <div class="scrolling-wrapper">
+            <div class="scrolling-row scroll-left" data-duplicate="true">
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">新屋进宅</span>
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">乔迁新居</span>
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">公司开业</span>
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">周年庆典</span>
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">商务年会</span>
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">金榜题名</span>
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">光荣入伍</span>
+              <span class="bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">各类庆典</span>
+            </div>
+          </div>
+
+          <div class="scrolling-wrapper">
+            <div class="scrolling-row scroll-right" data-duplicate="true">
+              <span class="bg-amber-50 text-amber-700 border border-amber-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">百岁宴</span>
+              <span class="bg-amber-50 text-amber-700 border border-amber-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">八十大寿</span>
+              <span class="bg-amber-50 text-amber-700 border border-amber-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">七十大寿</span>
+              <span class="bg-amber-50 text-amber-700 border border-amber-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">六十大寿</span>
+              <span class="bg-amber-50 text-amber-700 border border-amber-100 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">各类纪念</span>
+              <span class="bg-gray-100 text-gray-700 border border-gray-200 px-6 py-2.5 rounded-full text-base font-medium whitespace-nowrap">白事吊唁</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="quick-start" class="py-20 bg-gray-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div class="text-center">
+            <h2 class="text-3xl font-extrabold sm:text-4xl">三步快速上手</h2>
+            <p class="mt-4 text-lg text-gray-400">极致便捷，下载即用，无复杂安装过程。</p>
+          </div>
+          <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10 text-center relative">
+            <div class="hidden md:block absolute top-10 left-[16%] right-[16%] h-0.5 border-t-2 border-dashed border-gray-700 z-0"></div>
+
+            <div class="relative z-10 group">
+              <div
+                class="flex items-center justify-center h-20 w-20 mx-auto brand-bg text-white rounded-2xl text-3xl font-bold shadow-lg transform group-hover:scale-110 transition-transform duration-300 ring-4 ring-gray-800">
+                1
+              </div>
+              <h3 class="mt-6 text-xl font-bold">获取程序</h3>
+              <p class="mt-2 text-gray-400 text-sm px-4">下载 <code class="bg-gray-800 px-1 py-0.5 rounded text-red-400">.exe</code>程序并运行，<br />或者使用在线网页版。</p>
+            </div>
+            <div class="relative z-10 group">
+              <div
+                class="flex items-center justify-center h-20 w-20 mx-auto brand-bg text-white rounded-2xl text-3xl font-bold shadow-lg transform group-hover:scale-110 transition-transform duration-300 ring-4 ring-gray-800">
+                2
+              </div>
+              <h3 class="mt-6 text-xl font-bold">创建事项</h3>
+              <p class="mt-2 text-gray-400 text-sm px-4">创建一个事项，设置一个密码，<br />即可开启数字化账本。</p>
+            </div>
+            <div class="relative z-10 group">
+              <div
+                class="flex items-center justify-center h-20 w-20 mx-auto brand-bg text-white rounded-2xl text-3xl font-bold shadow-lg transform group-hover:scale-110 transition-transform duration-300 ring-4 ring-gray-800">
+                3
+              </div>
+              <h3 class="mt-6 text-xl font-bold">记录与导出</h3>
+              <p class="mt-2 text-gray-400 text-sm px-4">录入完成后，及时导出 Excel 报表或打印精美 PDF、存储到微信或网盘。</p>
+            </div>
+          </div>
+          <div class="mt-20 flex flex-col sm:flex-row gap-5 justify-center items-center w-full px-4 sm:px-0">
+            <a
+              href="https://github.com/jingguanzhang/gift-book/releases"
+              target="_blank"
+              class="group w-full sm:w-[280px] inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-300 bg-red-600 rounded-full shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:bg-red-500 hover:shadow-[0_0_30px_rgba(220,38,38,0.5)] hover:-translate-y-1">
+              <div class="mr-3 flex items-center justify-center bg-red-700 rounded-full w-8 h-8 group-hover:bg-red-600 transition-colors">
+                <i class="ri-windows-fill text-xl"></i>
+              </div>
+              <span>下载 Windows 版</span>
+            </a>
+
+            <a
+              href="https://e-gift-v1.netlify.app/"
+              target="_blank"
+              class="group w-full sm:w-[280px] inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-300 border border-gray-600 bg-gray-800/50 backdrop-blur-sm rounded-full hover:bg-white hover:text-gray-900 hover:border-white hover:-translate-y-1">
+              <div class="mr-3 flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 group-hover:bg-gray-200 transition-colors">
+                <i class="ri-global-line text-xl"></i>
+              </div>
+              <span>在线网页版</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="flex items-center gap-2">
+            <i class="ri-book-mark-line text-2xl brand-text"></i>
+            <span class="font-bold text-gray-900 text-lg">电子礼簿系统</span>
+          </div>
+          <div class="text-sm text-gray-500 text-center md:text-right">
+  <p>&copy; <span id="current-year"></span> Gift Book System. Open Source & Free.</p>
+  <p class="mt-1 flex items-center justify-center md:justify-end gap-2">
+    <i class="ri-sparkling-fill text-blue-500"></i>
+    <span>Designed & Developed by</span>
+    <span class="font-extrabold bg-gradient-to-r from-blue-600 via-purple-500 to-red-500 bg-clip-text text-transparent">
+      Gemini 3 Pro
+    </span>
+  </p>
+</div>
+        </div>
+      </div>
+    </footer>
+
+    <dialog id="modal-download" class="rounded-2xl shadow-2xl p-0 w-[90%] max-w-lg backdrop:bg-gray-900/50 backdrop:backdrop-blur-sm z-50">
+      <div class="bg-white rounded-2xl overflow-hidden">
+        <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-gray-900">选择下载方式</h3>
+          <button class="btn-close text-gray-300 hover:text-gray-600 focus:outline-none transition-colors">
+            <i class="ri-close-circle-fill text-3xl"></i>
+          </button>
+        </div>
+        <div class="p-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <a
+              href="https://github.com/jingguanzhang/gift-book/releases"
+              target="_blank"
+              class="flex flex-col items-center text-center group p-6 rounded-xl border-2 border-gray-100 hover:border-blue-100 hover:bg-blue-50 transition-all duration-300">
+              <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i class="ri-windows-fill text-3xl"></i>
+              </div>
+              <h4 class="text-lg font-bold text-gray-800 mb-2">Windows 版</h4>
+              <p class="text-sm text-gray-500">开箱即用，无需配置<br />适合普通用户</p>
+            </a>
+
+            <a
+              href="https://github.com/jingguanzhang/gift-book"
+              target="_blank"
+              class="flex flex-col items-center text-center group p-6 rounded-xl border-2 border-gray-100 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300">
+              <div class="w-16 h-16 rounded-full bg-gray-100 text-gray-800 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <i class="ri-github-fill text-3xl"></i>
+              </div>
+              <h4 class="text-lg font-bold text-gray-800 mb-2">源代码</h4>
+              <p class="text-sm text-gray-500">Web 版 / 二次开发<br />适合开发者</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="modal-support" class="rounded-2xl shadow-2xl p-0 w-[90%] max-w-lg backdrop:bg-gray-900/50 backdrop:backdrop-blur-sm z-50">
+      <div class="bg-white rounded-2xl overflow-hidden">
+        <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+          <h3 class="text-xl font-bold">联系与支持</h3>
+          <button class="btn-close text-gray-300 hover:text-gray-600 focus:outline-none transition-colors">
+            <i class="ri-close-circle-fill text-3xl"></i>
+          </button>
+        </div>
+        <div class="p-8 text-center">
+          <div class="flex items-center justify-center gap-2 mb-6 text-gray-600">
+            <i class="ri-cup-line text-2xl text-amber-500"></i>
+            <span class="text-lg font-medium">如果觉得好用，请作者喝一杯咖啡</span>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 md:gap-8 md:grid-cols-2">
+            <div class="text-center">
+              <div class="bg-gray-50 p-2 rounded-lg border border-gray-200 mb-3">
+                <img src="./addme.jpg" alt="微信联系" class="w-full h-auto rounded" />
+              </div>
+              <p class="font-medium text-gray-700"><i class="ri-wechat-fill text-green-500 align-bottom"></i> 微信联系</p>
+            </div>
+            <div class="text-center">
+              <div class="bg-gray-50 p-2 rounded-lg border border-gray-200 mb-3">
+                <img src="./support.jpg" alt="支持作者" class="w-full h-auto rounded" />
+              </div>
+              <p class="font-medium text-gray-700"><i class="ri-heart-fill text-red-500 align-bottom"></i> 赞赏支持</p>
+            </div>
+          </div>
+
+          <div class="mt-8 text-sm text-gray-400">您的支持是我持续更新的动力！</div>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      const scrollers = document.querySelectorAll(".scrolling-row[data-duplicate='true']");
+      scrollers.forEach((scroller) => {
+        const innerContent = scroller.innerHTML;
+        let newContent = "";
+        for (let i = 0; i < 8; i++) {
+          newContent += innerContent;
+        }
+        scroller.innerHTML = newContent;
+      });
+    </script>
+    <script src="./dist/swiper-bundle.min.js"></script>
+    <script>
+      document.getElementById("current-year").textContent = new Date().getFullYear();
+
+      document.addEventListener("DOMContentLoaded", function () {
+        initModalClosers();
+        const testimonials = [
+          {
+            quote: `家族里负责记账的长辈年纪大了，轮到我们年轻小辈来接班了，一开始想用本子记，但怕出错就在网上找到这个，还蛮好用的，关键还免费！`,
+            name: "知乎用户",
+            role: "大学生",
+            img: "./txico/1.jpg",
+          },
+          {
+            quote: "回村被亲戚叫来帮忙记礼账，说实话也有点紧张，怕记错被人说。用这个至少系统实时统计，错了还能修改，比纸上涂来涂去体面些，最后导出的账面看着也清爽",
+            name: "抖音用户",
+            role: "礼部尚书",
+            img: "./txico/3.jpg",
+          },
+          {
+            quote: "不能说这是多高级的东西，但在这种人多事杂、容易出错的场合，确实比传统手写更稳一点，更适合会电脑的年轻群体。",
+            name: "哔哩哔哩用户",
+            role: "UP主",
+            img: "./txico/4.jpg",
+          },
+          {
+            quote: "良心软件，完全免费，没有乱七八糟的VIP。整体使用下来没有任何的限制。之前用过类似记账小程序，两年之后小程序打不开了，数据全丢，还是这种本地离线存储的靠谱。",
+            name: "抖音用户",
+            role: "礼部尚书",
+            img: "./txico/5.jpg",
+          },
+          {
+            quote: "挺佩服你们这帮开源的，很有想法，并且能真正适配潜在客户的需求。那些写个垃圾小程序 全是广告还要收钱的一言难尽，中国就是很多人是功利思想，但开源思想和极客精神才是长久之计",
+            name: "知乎用户",
+            role: "路人甲",
+            img: "./txico/6.jpg",
+          },
+          {
+            quote: "作为一个开发者，我要给这个系统的作者点个赞，不像很多花里胡哨的小程序，导出数据还要收费，这个是实打实的生产力工具，关键还开源！",
+            name: "Github用户",
+            role: "独立开发者",
+            img: "./txico/2.jpg",
+          },
+        ];
+        const titleEl = document.querySelector(".titleSwiper");
+        const titleSwiper = new Swiper(".titleSwiper", {
+          direction: "vertical",
+          loop: true,
+          autoplay: {
+            delay: 2000,
+            disableOnInteraction: false,
+          },
+          speed: 1500,
+          allowTouchMove: false,
+        });
+
+        titleEl.addEventListener("mouseenter", () => titleSwiper.autoplay.stop());
+        titleEl.addEventListener("mouseleave", () => titleSwiper.autoplay.start());
+
+        const track = document.querySelector(".testimonial-slider .swiper-wrapper");
+        if (track) {
+          track.innerHTML = testimonials
+            .map(
+              (t) => `
+                    <div class="swiper-slide p-2 h-auto">
+                        <div class="bg-white h-full p-8 rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 flex flex-col relative overflow-hidden group hover:border-red-100 transition-colors">
+                            <div class="absolute top-0 right-0 p-4 opacity-10 text-red-600 transform translate-x-2 -translate-y-2 group-hover:scale-110 transition-transform">
+                                <i class="ri-double-quotes-r text-6xl"></i>
+                            </div>
+                            <p class="mt-2 text-gray-600 flex-grow leading-relaxed relative z-10 italic">"${t.quote}"</p>
+                            <div class="mt-8 flex items-center border-t border-gray-100 pt-6">
+                                <img class="h-12 w-12 rounded-full object-cover ring-2 ring-red-50" src="${t.img}" alt="${t.name}头像">
+                                <div class="ml-4">
+                                    <p class="font-bold text-gray-900 text-sm">${t.name}</p>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide mt-0.5">${t.role}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+            )
+            .join("");
+        }
+
+        const testimonialSwiper = new Swiper(".testimonial-slider", {
+          loop: true,
+          autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          },
+          slidesPerView: 1,
+          spaceBetween: 20,
+          breakpoints: {
+            768: { slidesPerView: 2, spaceBetween: 30 },
+            1024: { slidesPerView: 3, spaceBetween: 30 },
+          },
+          navigation: {
+            nextEl: ".testimonial-slider-container .custom-next",
+            prevEl: ".testimonial-slider-container .custom-prev",
+          },
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+        });
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const pdfSwiperEl = document.querySelector("#content-slider");
+        const tabContainer = document.querySelector("#tab-nav-container");
+
+        if (tabButtons.length > 0 && pdfSwiperEl) {
+          const pdfSwiper = new Swiper(pdfSwiperEl, {
+            effect: "fade",
+            fadeEffect: {
+              crossFade: true,
+            },
+            autoHeight: true,
+            autoplay: {
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            },
+            loop: true,
+            on: {
+              slideChange: function () {
+                updateActivetab(this.realIndex);
+              },
+            },
+          });
+
+          function updateActivetab(index) {
+            if (!tabButtons[index]) return;
+
+            tabButtons.forEach((btn) => {
+              btn.classList.remove("active", "text-red-600");
+              btn.classList.add("text-gray-500");
+              const iconBox = btn.querySelector("div");
+              if (iconBox) iconBox.classList.remove("bg-red-50", "text-red-600");
+            });
+
+            const activeButton = tabButtons[index];
+            activeButton.classList.add("active", "text-red-600");
+            activeButton.classList.remove("text-gray-500");
+
+            const activeIconBox = activeButton.querySelector("div");
+            if (activeIconBox) activeIconBox.classList.add("bg-red-50", "text-red-600");
+          }
+
+          tabButtons.forEach((button, index) => {
+            button.addEventListener("click", (e) => {
+              e.preventDefault();
+              pdfSwiper.slideToLoop(index);
+              button.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            });
+          });
+
+          if (tabContainer) {
+            tabContainer.addEventListener("mouseenter", () => pdfSwiper.autoplay.stop());
+            tabContainer.addEventListener("mouseleave", () => pdfSwiper.autoplay.start());
+          }
+
+          updateActivetab(0);
+        }
+
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeIcon = document.getElementById("close-icon");
+        const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+
+        function toggleMobileMenu() {
+          const isHidden = mobileMenu.classList.contains("hidden");
+          if (isHidden) {
+            mobileMenu.classList.remove("hidden");
+            menuIcon.classList.add("hidden");
+            closeIcon.classList.remove("hidden");
+          } else {
+            mobileMenu.classList.add("hidden");
+            menuIcon.classList.remove("hidden");
+            closeIcon.classList.add("hidden");
+          }
+        }
+
+        if (mobileMenuBtn) {
+          mobileMenuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleMobileMenu();
+          });
+        }
+
+        mobileLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            if (!mobileMenu.classList.contains("hidden")) {
+              toggleMobileMenu();
+            }
+          });
+        });
+
+        document.addEventListener("click", (e) => {
+          if (mobileMenu && !mobileMenu.classList.contains("hidden")) {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+              toggleMobileMenu();
+            }
+          }
+        });
+      });
+      function openModal(modalId) {
+        const dialog = document.getElementById(modalId);
+        document.body.classList.add("overflow-hidden");
+        if (dialog) {
+          dialog.showModal();
+        } else {
+          console.warn(`未找到 ID 为 "${modalId}" 的弹窗`);
+        }
+      }
+      function initModalClosers() {
+        const dialogs = document.querySelectorAll("dialog");
+
+        dialogs.forEach((dialog) => {
+          dialog.addEventListener("close", () => {
+            document.body.classList.remove("overflow-hidden");
+          });
+          const closeBtn = dialog.querySelector(".btn-close");
+          if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+              dialog.close();
+            });
+          }
+
+          dialog.addEventListener("click", (event) => {
+            const rect = dialog.getBoundingClientRect();
+            const isInDialog = rect.top <= event.clientY && event.clientY <= rect.top + rect.height && rect.left <= event.clientX && event.clientX <= rect.left + rect.width;
+
+            if (!isInDialog) {
+              dialog.close();
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
