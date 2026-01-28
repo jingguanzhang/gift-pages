@@ -3,18 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>电子礼簿系统 - 专业版 | 现代、安全、完全离线的礼金管理解决方案</title>
-    <meta
-      name="description"
-      content="一款完全在浏览器本地运行的单页 Web 应用，为各类红白喜事提供一个现代化、安全、高效的礼金管理解决方案。采用 AES-256 加密，数据 100% 离线存储，支持历史追溯、多格式导出，永不泄露隐私。" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
-
-    <script src="./dist/tailwindcss.js"></script>
-    <link href="./dist/swiper-bundle.min.css" rel="stylesheet" />
-    <link href="./dist/remixicon.css" rel="stylesheet" />
-
+    <title>电子礼簿系统 - 简单易用的现代化礼金管理解决方案</title>
+    <meta name="description" content="一款完全免费的现代化礼金份子钱记录应用，为各类红白喜事提供一个现代化、安全、高效的礼金管理解决方案。数据 100% 离线存储，支持历史追溯、多格式导出，永不泄露隐私。" />
+    <script src="https://s4.zstatic.net/ajax/libs/tailwindcss-browser/4.1.13/index.global.min.js"></script>
+    <link href="https://s4.zstatic.net/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="https://s4.zstatic.net/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet" />
     <style>
        :root {
          --primary: #c53030;
@@ -23,16 +16,9 @@
        }
 
        body {
-         font-family:
-           "Inter",
-           "Noto Sans SC",
-           -apple-system,
-           BlinkMacSystemFont,
-           "Segoe UI",
-           Roboto,
-           sans-serif;
-         background-color: #fcfcfc;
-       }
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background-color: #fcfcfc;
+      }
 
        /* --- 通用工具类 --- */
        .brand-text {
@@ -101,11 +87,13 @@
 
        .titleSwiper .swiper-wrapper {
          display: block !important;
+         height: auto!important;
        }
        .titleSwiper .swiper-slide {
          width: 100% !important;
          justify-content: flex-start;
-         overflow: hidden;
+        line-height: 1em;
+        overflow: hidden;
        }
        .feature-card {
          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -212,7 +200,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex-shrink-0 flex items-center gap-2">
-            <div class="w-8 h-8 rounded bg-red-600 text-white flex items-center justify-center font-bold text-xl"><i class="ri-book-read-fill"></i></div>
+            <div class="w-8 h-8 rounded bg-red-600 text-white flex items-center justify-center font-bold text-xl"><img src="./app.png" alt="logo" class="w-100 h-auto"></div>
             <a href="#/" class="text-xl md:text-2xl font-bold tracking-tight text-gray-900">电子礼簿系统<span class="text-red-600 text-sm align-top ml-1">PRO</span></a>
           </div>
 
@@ -278,7 +266,7 @@
           <div class="grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-12 items-center text-center lg:text-left">
             <div class="col-span-1 lg:col-span-6 backdrop-blur-sm bg-white/60 lg:bg-transparent p-6 lg:p-0 rounded-2xl lg:rounded-none border border-white/50 lg:border-none shadow-xl lg:shadow-none">
               <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight flex flex-wrap items-center">
-                <div class="swiper titleSwiper h-[36px] sm:h-[42px] lg:h-[56px] overflow-hidden mr-2 mb-3 w-full">
+                <div class="swiper titleSwiper h-[1em] overflow-hidden mr-2 w-full">
                   <div class="swiper-wrapper">
                     <div class="swiper-slide brand-text">简单易用</div>
                     <div class="swiper-slide brand-text">完全开源</div>
@@ -287,7 +275,7 @@
                     <div class="swiper-slide brand-text">离线运行</div>
                   </div>
                 </div>
-                <span class="flex-1 whitespace-nowrap">的电子礼簿软件</span>
+                <span class="flex-1 whitespace-nowrap">的电子礼簿应用</span>
               </h1>
 
               <p class="mt-4 text-lg sm:text-xl md:text-2xl text-gray-600 font-medium">现代化、数字化的礼金解决方案</p>
@@ -404,7 +392,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                    <div class="w-[65vw] md:w-[30vw]  md:p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
                       <img src="./1.webp" class="h-auto" />
                     </div>
                   </div>
@@ -429,7 +417,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                    <div class="w-[65vw] md:w-[30vw]  md:p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
                       <img src="./2.webp" class="h-auto" />
                     </div>
                   </div>
@@ -454,7 +442,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                    <div class="w-[65vw] md:w-[30vw]  md:p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
                       <img src="./3.webp" class="h-auto" />
                     </div>
                   </div>
@@ -479,7 +467,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                    <div class="w-[65vw] md:w-[30vw]  md:p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
                       <img src="./4.webp" class="h-auto" />
                     </div>
                   </div>
@@ -504,7 +492,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                    <div class="w-[65vw] md:w-[30vw]  md:p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
                       <img src="./5.webp" class="h-auto" />
                     </div>
                   </div>
@@ -529,7 +517,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                    <div class="w-[65vw] md:w-[30vw]  md:p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
                       <img src="./6.webp" class="h-auto" />
                     </div>
                   </div>
@@ -554,7 +542,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="w-[30vw] p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
+                    <div class="w-[65vw] md:w-[30vw]  md:p-3 pr-0 flex items-center justify-center order-first md:order-last bg-red-20">
                       <img src="./7.webp" class="h-auto" />
                     </div>
                   </div>
@@ -796,15 +784,13 @@
             <span class="font-bold text-gray-900 text-lg">电子礼簿系统</span>
           </div>
           <div class="text-sm text-gray-500 text-center md:text-right">
-  <p>&copy; <span id="current-year"></span> Gift Book System. Open Source & Free.</p>
-  <p class="mt-1 flex items-center justify-center md:justify-end gap-2">
-    <i class="ri-sparkling-fill text-blue-500"></i>
-    <span>Designed & Developed by</span>
-    <span class="font-extrabold bg-gradient-to-r from-blue-600 via-purple-500 to-red-500 bg-clip-text text-transparent">
-      Gemini 3 Pro
-    </span>
-  </p>
-</div>
+            <p>&copy; <span id="current-year"></span> Gift Book System. Open Source & Free.</p>
+            <p class="mt-1 flex items-center justify-center md:justify-end gap-2">
+              <i class="ri-sparkling-fill text-blue-500"></i>
+              <span>Designed & Developed by</span>
+              <span class="font-extrabold bg-gradient-to-r from-blue-600 via-purple-500 to-red-500 bg-clip-text text-transparent"> Gemini 3 Pro </span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
@@ -890,7 +876,7 @@
         scroller.innerHTML = newContent;
       });
     </script>
-    <script src="./dist/swiper-bundle.min.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
     <script>
       document.getElementById("current-year").textContent = new Date().getFullYear();
 
@@ -997,15 +983,16 @@
           },
         });
         const tabButtons = document.querySelectorAll(".tab-button");
-        const pdfSwiperEl = document.querySelector("#content-slider");
+        const pdfEl = document.querySelector("#content-slider");
         const tabContainer = document.querySelector("#tab-nav-container");
 
-        if (tabButtons.length > 0 && pdfSwiperEl) {
-          const pdfSwiper = new Swiper(pdfSwiperEl, {
+        if (tabButtons.length > 0 && iSwiperEl) {
+          const iSwiper = new Swiper(iSwiperEl, {
             effect: "fade",
             fadeEffect: {
               crossFade: true,
             },
+            observer: true,
             autoHeight: true,
             autoplay: {
               delay: 5000,
@@ -1041,14 +1028,14 @@
           tabButtons.forEach((button, index) => {
             button.addEventListener("click", (e) => {
               e.preventDefault();
-              pdfSwiper.slideToLoop(index);
+              iSwiper.slideToLoop(index);
               button.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
             });
           });
 
           if (tabContainer) {
-            tabContainer.addEventListener("mouseenter", () => pdfSwiper.autoplay.stop());
-            tabContainer.addEventListener("mouseleave", () => pdfSwiper.autoplay.start());
+            tabContainer.addEventListener("mouseenter", () => iSwiper.autoplay.stop());
+            tabContainer.addEventListener("mouseleave", () => iSwiper.autoplay.start());
           }
 
           updateActivetab(0);
